@@ -8,10 +8,10 @@
         <property name="hibernate.connection.password">root</property>
         <property name="connection_poolsize">1</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-
         <mapping class="com.mizio.model.Subject" />
+        <mapping class="com.mizio.model.Test" />
     </session-factory>
 </hibernate-configuration>
