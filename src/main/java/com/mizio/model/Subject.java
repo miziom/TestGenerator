@@ -3,30 +3,32 @@ package com.mizio.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-@Table(name = "students")
+@Table(name = "subjects")
 public class Subject {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_id")
+    @Column(name = "subject_id",
+            updatable = false,
+            nullable = false)
     private int subjectID;
 
     @Column(name = "subject_name")
     private String subjectName;
 
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "subjectID=" + subjectID +
-                ", subjectName='" + subjectName + '\'' +
-                '}';
-    }
+    @OneToMany(mappedBy = "subject",
+            targetEntity = Test.class,
+            fetch= FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Test> tests = new ArrayList<>();
+
 }
