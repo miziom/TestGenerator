@@ -22,7 +22,8 @@ public class Subject {
             nullable = false)
     private int subjectID;
 
-    @Column(name = "subject_name")
+    @Column(name = "subject_name",
+            nullable = false)
     private String subjectName;
 
     @OneToMany(mappedBy = "subject",
