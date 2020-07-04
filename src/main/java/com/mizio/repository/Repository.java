@@ -4,6 +4,8 @@ import com.mizio.model.Subject;
 
 public interface Repository {
 
-    void saveSubject(Subject subject);
+    void saveOrUpdateSubject(Subject subject);
+    Subject getSubject(int subjectID);
+    boolean deleteSubject(int subjectID);
 
 }
