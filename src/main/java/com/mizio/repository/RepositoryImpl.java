@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.Question;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import org.hibernate.Session;
@@ -74,6 +75,35 @@ public class RepositoryImpl implements Repository {
         Test test = session.find(Test.class, testID);
         if(test != null) {
             session.delete(test);
+            session.getTransaction().commit();
+            closeSessionAndSessionFactory();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void saveOrUpdateQuestion(Question question) {
+        configureSessionAndBeginTransaction();
+        session.saveOrUpdate(question);
+        session.getTransaction().commit();
+        closeSessionAndSessionFactory();
+    }
+
+    @Override
+    public Question getQuestion(int questionID) {
+        configureSessionAndBeginTransaction();
+        Question question = session.get(Question.class, questionID);
+        closeSessionAndSessionFactory();
+        return question;
+    }
+
+    @Override
+    public boolean deleteQuestion(int questionID) {
+        configureSessionAndBeginTransaction();
+        Question question = session.find(Question.class, questionID);
+        if(question != null) {
+            session.delete(question);
             session.getTransaction().commit();
             closeSessionAndSessionFactory();
             return true;
