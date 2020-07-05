@@ -10,9 +10,10 @@ public class RepositoryImpl implements Repository {
     SessionFactory sessionFactory;
     Session session;
 
-    private Session configureAndGetSession() {
+    private void configureSessionAndBeginTransaction() {
         sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-        return sessionFactory.getCurrentSession();
+        session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
     }
 
     private void closeSessionAndSessionFactory() {
@@ -22,8 +23,7 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public void saveOrUpdateSubject(Subject subject) {
-        session = configureAndGetSession();
-        session.beginTransaction();
+        configureSessionAndBeginTransaction();
         session.saveOrUpdate(subject);
         session.getTransaction().commit();
         closeSessionAndSessionFactory();
@@ -31,8 +31,7 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public Subject getSubject(int subjectID) {
-        session = configureAndGetSession();
-        session.beginTransaction();
+        configureSessionAndBeginTransaction();
         Subject subject = session.get(Subject.class, subjectID);
         closeSessionAndSessionFactory();
         return subject;
@@ -40,8 +39,13 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public boolean deleteSubject(int subjectID) {
-        session = configureAndGetSession();
-        session.beginTransaction();
-        return true;
+        configureSessionAndBeginTransaction();
+        Subject subject = session.load(Subject.class, subjectID);
+        if(subject != null) {
+            session.delete(subject);
+            session.getTransaction().commit();
+            return true;
+        }
+        return false;
     }
 }
