@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.Question;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
 
@@ -12,5 +13,9 @@ public interface Repository {
     void saveOrUpdateTest(int subjectID, Test test);
     Test getTest(int testID);
     boolean deleteTest(int testID);
+
+    void saveOrUpdateQuestion(Question question);
+    Question getQuestion(int questionID);
+    boolean deleteQuestion(int questionID);
 
 }
