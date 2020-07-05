@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.AnswersContent;
 import com.mizio.model.Question;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
@@ -83,8 +84,10 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void saveOrUpdateQuestion(Question question) {
+    public void saveOrUpdateQuestion(Question question, AnswersContent answersContent) {
         configureSessionAndBeginTransaction();
+        answersContent.setQuestion(question);
+        question.setAnswersContent(answersContent);
         session.saveOrUpdate(question);
         session.getTransaction().commit();
         closeSessionAndSessionFactory();
