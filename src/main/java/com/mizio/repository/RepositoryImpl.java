@@ -1,8 +1,11 @@
 package com.mizio.repository;
 
+import com.mizio.model.Subject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import java.util.List;
 
 public class RepositoryImpl implements Repository {
 
@@ -48,5 +51,13 @@ public class RepositoryImpl implements Repository {
         }
         closeSessionAndSessionFactory();
         return false;
+    }
+
+    @Override
+    public List<Subject> getSubjectsList() {
+        configureSessionAndBeginTransaction();
+        List<Subject> subjects = session.createQuery("from Subject", Subject.class).list();
+        closeSessionAndSessionFactory();
+        return subjects;
     }
 }
