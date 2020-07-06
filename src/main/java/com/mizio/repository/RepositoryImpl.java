@@ -1,6 +1,5 @@
 package com.mizio.repository;
 
-import com.mizio.model.AnswersContent;
 import com.mizio.model.Question;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
@@ -10,8 +9,8 @@ import org.hibernate.cfg.Configuration;
 
 public class RepositoryImpl implements Repository {
 
-    SessionFactory sessionFactory;
-    Session session;
+    private SessionFactory sessionFactory;
+    private Session session;
 
     private void configureSessionAndBeginTransaction() {
         sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
@@ -22,6 +21,36 @@ public class RepositoryImpl implements Repository {
     private void closeSessionAndSessionFactory() {
         session.close();
         sessionFactory.close();
+    }
+
+    @Override
+    public <T> void saveOrUpdateObject(T object) {
+        configureSessionAndBeginTransaction();
+        session.saveOrUpdate(object);
+        session.getTransaction().commit();
+        closeSessionAndSessionFactory();
+    }
+
+    @Override
+    public <T> T getObject(Class<T> tClass, int ID) {
+        configureSessionAndBeginTransaction();
+        Object object = session.get(tClass, ID);
+        closeSessionAndSessionFactory();
+        return tClass.cast(object);
+    }
+
+    @Override
+    public <T> boolean deleteObject(Class<T> tClass, int ID) {
+        configureSessionAndBeginTransaction();
+        Object object = session.load(tClass, ID);
+        if(object != null) {
+            session.delete(tClass.cast(object));
+            session.getTransaction().commit();
+            closeSessionAndSessionFactory();
+            return true;
+        }
+        closeSessionAndSessionFactory();
+        return false;
     }
 
     @Override
@@ -53,10 +82,8 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void saveOrUpdateTest(int subjectID, Test test) {
+    public void saveOrUpdateTest(Test test) {
         configureSessionAndBeginTransaction();
-        Subject subject = session.load(Subject.class, subjectID);
-        test.setSubject(subject);
         session.saveOrUpdate(test);
         session.getTransaction().commit();
         closeSessionAndSessionFactory();
@@ -84,10 +111,8 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public void saveOrUpdateQuestion(Question question, AnswersContent answersContent) {
+    public void saveOrUpdateQuestion(Question question) {
         configureSessionAndBeginTransaction();
-        answersContent.setQuestion(question);
-        question.setAnswersContent(answersContent);
         session.saveOrUpdate(question);
         session.getTransaction().commit();
         closeSessionAndSessionFactory();
