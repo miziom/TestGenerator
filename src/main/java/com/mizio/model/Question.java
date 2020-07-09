@@ -40,7 +40,8 @@ public class Question {
     private QuestionType questionType;
 
     @OneToOne(targetEntity = AnswersContent.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
     private AnswersContent answersContent;

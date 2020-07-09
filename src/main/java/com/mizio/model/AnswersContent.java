@@ -31,6 +31,7 @@ public class AnswersContent {
     private Test test;
 
     @ManyToOne(targetEntity = Question.class,
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     private Question question;
