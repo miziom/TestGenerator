@@ -2,9 +2,10 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com..mizio.controller.MainController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mizio.controller.MainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <left>
@@ -115,9 +116,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXComboBox fx:id="ComboBoxSubject" labelFloat="true" onAction="#ComboBoxSubjectAction" prefHeight="30.0" prefWidth="200.0" promptText="Przedmiot" />
-                              <JFXComboBox fx:id="ComboBoxTest" labelFloat="true" onAction="#ComboBoxTestAction" prefHeight="30.0" prefWidth="200.0" promptText="Test" GridPane.columnIndex="1" />
-                              <Label fx:id="LabelQuestionCounter" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="50.0" text="Liczba pytań: " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                              <JFXComboBox fx:id="comboBoxSubject" labelFloat="true" onAction="#comboBoxSubjectAction" prefHeight="30.0" prefWidth="200.0" promptText="Przedmiot" />
+                              <JFXComboBox fx:id="comboBoxTest" labelFloat="true" onAction="#comboBoxTestAction" prefHeight="30.0" prefWidth="200.0" promptText="Test" GridPane.columnIndex="1" />
+                              <Label fx:id="labelQuestionCounter" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="50.0" text="Liczba pytań: " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                  <font>
                                     <Font size="13.0" />
                                  </font></Label>
@@ -126,11 +127,24 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </GridPane>
-                        <JFXListView fx:id="ListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tableVIew" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="columnQuestionName" text="Pytanie" />
+                            <TableColumn fx:id="columnImage" prefWidth="75.0" text="Obraz" />
+                              <TableColumn fx:id="columnQuestionType" prefWidth="75.0" text="Typ" />
+                              <TableColumn fx:id="columnA" prefWidth="75.0" text="A" />
+                              <TableColumn fx:id="columnB" prefWidth="75.0" text="B" />
+                              <TableColumn fx:id="columnC" prefWidth="75.0" text="C" />
+                              <TableColumn fx:id="columnD" prefWidth="75.0" text="D" />
+                              <TableColumn fx:id="columnCorrectAnswer" prefWidth="75.0" text="Poprawne" />
+                          </columns>
                            <VBox.margin>
                               <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                            </VBox.margin>
-                        </JFXListView>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
                      </children></VBox>
                </children>
             </AnchorPane>
