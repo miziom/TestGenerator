@@ -4,6 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
+import com.mizio.manager.ViewManager;
+import com.mizio.pattern.PathPattern;
+import com.mizio.pattern.TitlePattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -76,7 +79,7 @@ public class GenerateController implements Initializable {
 
     @FXML
     void buttonBackAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.MAIN_VIEW, TitlePattern.MAIN_VIEW, event);
     }
 
     @FXML

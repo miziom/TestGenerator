@@ -2,8 +2,11 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.mizio.manager.ViewManager;
 import com.mizio.model.Question;
 import com.mizio.model.Test;
+import com.mizio.pattern.PathPattern;
+import com.mizio.pattern.TitlePattern;
 import com.mizio.repository.RepositoryService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -80,32 +83,32 @@ public class MainController implements Initializable {
 
     @FXML
     void buttonAddFileAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.ADD_FILE_VIEW, TitlePattern.ADD_FILE_VIEW, event);
     }
 
     @FXML
     void buttonAddQuestionAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.ADD_QUESTION_VIEW, TitlePattern.ADD_QUESTION_VIEW, event);
     }
 
     @FXML
     void buttonAddSubjectAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.ADD_SUBJECT_VIEW, TitlePattern.ADD_SUBJECT_VIEW, event);
     }
 
     @FXML
     void buttonAddTestAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.ADD_TEST_VIEW, TitlePattern.ADD_TEST_VIEW, event);
     }
 
     @FXML
     void buttonGenerateAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.GENERATE_VIEW, TitlePattern.GENERATE_VIEW, event);
     }
 
     @FXML
     void buttonSettingsAction(ActionEvent event) {
-
+        ViewManager.loadWindow(PathPattern.SETTINGS_VIEW, TitlePattern.SETTINGS_VIEW, event);
     }
 
     @FXML
