@@ -2,6 +2,7 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
 import com.mizio.pattern.PathPattern;
@@ -11,8 +12,7 @@ import com.mizio.repository.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
@@ -35,10 +35,32 @@ public class AddSubjectController implements Initializable {
     private TableColumn<Subject, String> columnSubjectName;
 
     @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemDelete;
+
+    @FXML
     private JFXTextField textFieldSubjectName;
 
     @FXML
     private JFXButton buttonAddSubject;
+
+    @FXML
+    void contextMenuAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void menuItemDeleteAction(ActionEvent event) {
+        if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
+            for (Subject subject:tableView.getSelectionModel().getSelectedItems()) {
+                repositoryService.deleteObject(subject.getClass(), subject.getSubjectID());
+            }
+            repositoryListViewer.saveOrUpdateList();
+            tableViewRefresh();
+        }
+    }
 
     @FXML
     void buttonAddSubjectAction(ActionEvent event) {
@@ -88,6 +110,7 @@ public class AddSubjectController implements Initializable {
 
     private void tableViewRefresh() {
         tableView.getItems().clear();
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
         tableView.getItems().setAll(repositoryListViewer.getSubjectList());
     }
