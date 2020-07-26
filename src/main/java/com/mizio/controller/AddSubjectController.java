@@ -6,6 +6,7 @@ import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
+import com.mizio.repository.RepositoryListViewer;
 import com.mizio.repository.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,12 +17,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddSubjectController implements Initializable {
 
     private RepositoryService repositoryService = new RepositoryService();
+
+    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
 
     @FXML
     private JFXButton buttonBack;
@@ -41,6 +43,7 @@ public class AddSubjectController implements Initializable {
     @FXML
     void buttonAddSubjectAction(ActionEvent event) {
         addSubject();
+        tableViewRefresh();
     }
 
     @FXML
@@ -56,14 +59,13 @@ public class AddSubjectController implements Initializable {
     @FXML
     void textFieldSubjectNameAction(ActionEvent event) {
         addSubject();
+        tableViewRefresh();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonAddSubject.setDisable(true);
-        List<Subject> subjects = repositoryService.getSubjectsList();
-        columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
-        tableView.getItems().setAll(subjects);
+        tableViewRefresh();
     }
 
     private void addSubject() {
@@ -71,6 +73,7 @@ public class AddSubjectController implements Initializable {
                 .subjectName(textFieldSubjectName.getText().trim())
                 .build();
         repositoryService.saveOrUpdateObject(subject);
+        repositoryListViewer.saveOrUpdateList();
         textFieldSubjectName.clear();
         buttonAddSubject.setDisable(true);
     }
@@ -81,6 +84,12 @@ public class AddSubjectController implements Initializable {
         } else {
             buttonAddSubject.setDisable(false);
         }
+    }
+
+    private void tableViewRefresh() {
+        tableView.getItems().clear();
+        columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        tableView.getItems().setAll(repositoryListViewer.getSubjectList());
     }
 
 }
