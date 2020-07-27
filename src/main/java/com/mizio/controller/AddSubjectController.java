@@ -2,26 +2,32 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.concurrency.TableViewSubjectThread;
+import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
+import com.mizio.repository.RepositoryListViewer;
 import com.mizio.repository.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddSubjectController implements Initializable {
 
     private RepositoryService repositoryService = new RepositoryService();
+
+    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+
+    private EditSubjectController editSubjectController = new EditSubjectController();
 
     @FXML
     private JFXButton buttonBack;
@@ -33,14 +39,53 @@ public class AddSubjectController implements Initializable {
     private TableColumn<Subject, String> columnSubjectName;
 
     @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemEdit;
+
+    @FXML
+    private MenuItem menuItemDelete;
+
+    @FXML
     private JFXTextField textFieldSubjectName;
 
     @FXML
     private JFXButton buttonAddSubject;
 
     @FXML
+    void tableViewContextMenuAction(ContextMenuEvent event) {
+        if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+            menuItemEdit.setDisable(true);
+        } else {
+            menuItemEdit.setDisable(false);
+        }
+    }
+
+    @FXML
+    void menuItemDeleteAction(ActionEvent event) {
+        if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
+            for (Subject subject:tableView.getSelectionModel().getSelectedItems()) {
+                repositoryService.deleteObject(subject.getClass(), subject.getSubjectID());
+            }
+            repositoryListViewer.saveOrUpdateList();
+            tableViewRefresh();
+        }
+    }
+
+    @FXML
+    void menuItemEditAction(ActionEvent event) {
+        TableViewSubjectThread tableViewThread = new TableViewSubjectThread(tableView, columnSubjectName);
+        new Thread(tableViewThread).start();
+        editSubjectController.setThread(tableViewThread);
+        editSubjectController.setSubjectID(tableView.getSelectionModel().getSelectedItem().getSubjectID());
+        ViewManager.loadNewWindow(PathPattern.EDIT_SUBJECT_VIEW, TitlePattern.EDIT_SUBJECT_VIEW, Subject.class);
+    }
+
+    @FXML
     void buttonAddSubjectAction(ActionEvent event) {
         addSubject();
+        tableViewRefresh();
     }
 
     @FXML
@@ -56,14 +101,13 @@ public class AddSubjectController implements Initializable {
     @FXML
     void textFieldSubjectNameAction(ActionEvent event) {
         addSubject();
+        tableViewRefresh();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttonAddSubject.setDisable(true);
-        List<Subject> subjects = repositoryService.getSubjectsList();
-        columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
-        tableView.getItems().setAll(subjects);
+        tableViewRefresh();
     }
 
     private void addSubject() {
@@ -71,6 +115,7 @@ public class AddSubjectController implements Initializable {
                 .subjectName(textFieldSubjectName.getText().trim())
                 .build();
         repositoryService.saveOrUpdateObject(subject);
+        repositoryListViewer.saveOrUpdateList();
         textFieldSubjectName.clear();
         buttonAddSubject.setDisable(true);
     }
@@ -83,4 +128,10 @@ public class AddSubjectController implements Initializable {
         }
     }
 
+    private void tableViewRefresh() {
+        tableView.getItems().clear();
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        tableView.getItems().setAll(repositoryListViewer.getSubjectList());
+    }
 }
