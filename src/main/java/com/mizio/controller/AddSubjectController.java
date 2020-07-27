@@ -2,6 +2,7 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.concurrency.TableViewSubjectThread;
 import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -24,6 +26,8 @@ public class AddSubjectController implements Initializable {
     private RepositoryService repositoryService = new RepositoryService();
 
     private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+
+    private EditSubjectController editSubjectController = new EditSubjectController();
 
     @FXML
     private JFXButton buttonBack;
@@ -38,6 +42,9 @@ public class AddSubjectController implements Initializable {
     private ContextMenu contextMenu;
 
     @FXML
+    private MenuItem menuItemEdit;
+
+    @FXML
     private MenuItem menuItemDelete;
 
     @FXML
@@ -47,8 +54,12 @@ public class AddSubjectController implements Initializable {
     private JFXButton buttonAddSubject;
 
     @FXML
-    void contextMenuAction(ActionEvent event) {
-
+    void tableViewContextMenuAction(ContextMenuEvent event) {
+        if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+            menuItemEdit.setDisable(true);
+        } else {
+            menuItemEdit.setDisable(false);
+        }
     }
 
     @FXML
@@ -60,6 +71,15 @@ public class AddSubjectController implements Initializable {
             repositoryListViewer.saveOrUpdateList();
             tableViewRefresh();
         }
+    }
+
+    @FXML
+    void menuItemEditAction(ActionEvent event) {
+        TableViewSubjectThread tableViewThread = new TableViewSubjectThread(tableView, columnSubjectName);
+        new Thread(tableViewThread).start();
+        editSubjectController.setThread(tableViewThread);
+        editSubjectController.setSubjectID(tableView.getSelectionModel().getSelectedItem().getSubjectID());
+        ViewManager.loadNewWindow(PathPattern.EDIT_SUBJECT_VIEW, TitlePattern.EDIT_SUBJECT_VIEW, Subject.class);
     }
 
     @FXML
@@ -114,5 +134,4 @@ public class AddSubjectController implements Initializable {
         columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
         tableView.getItems().setAll(repositoryListViewer.getSubjectList());
     }
-
 }
