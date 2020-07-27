@@ -87,10 +87,10 @@ public class EditSubjectController implements Initializable {
         subject.setSubjectName(textFieldSubjectName.getText().trim());
         repositoryService.saveOrUpdateObject(subject);
         repositoryListViewer.saveOrUpdateList();
-        thread.notifyGuard();
     }
 
     private void closeStage() {
+        thread.notifyGuard();
         clean();
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
