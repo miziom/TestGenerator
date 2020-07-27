@@ -33,6 +33,7 @@ public class TableViewSubjectThread implements Runnable {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         columnSubjectName.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
         tableView.getItems().setAll(repositoryListViewer.getSubjectList());
+        guard = true;
     }
 
     public synchronized void notifyGuard() {
