@@ -12,9 +12,11 @@ public class RepositoryListViewer {
     private RepositoryService repositoryService = new RepositoryService();
 
     public void saveOrUpdateList() {
-        new Thread(() -> {
-            subjectList = repositoryService.getSubjectsList();
-        }).start();
+        subjectList = repositoryService.getSubjectsList();
+    }
+
+    public List<Subject> getSubjectList() {
+        return subjectList;
     }
 
     public Subject getSubject(int ID) {
