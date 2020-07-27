@@ -6,6 +6,9 @@ public class PathPattern {
     public static final String ADD_TEST_VIEW        = "/view/AddTestView.fxml";
     public static final String ADD_QUESTION_VIEW    = "/view/AddQuestionView.fxml";
     public static final String ADD_FILE_VIEW        = "/view/AddFileView.fxml";
+    public static final String EDIT_SUBJECT_VIEW    = "/view/EditSubjectView.fxml";
+    public static final String EDIT_TEST_VIEW       = "/view/EditTestView.fxml";
+    public static final String EDIT_QUESTION_VIEW   = "/view/EditQuestionView.fxml";
     public static final String GENERATE_VIEW        = "/view/GenerateView.fxml";
     public static final String SETTINGS_VIEW        = "/view/SettingsView.fxml";
     public static final String ICON_APP             = "/icon/icon_app.png";
