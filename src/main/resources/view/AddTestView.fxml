@@ -4,6 +4,8 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -59,7 +61,7 @@
                               <Insets left="10.0" right="10.0" top="20.0" />
                            </VBox.margin>
                         </JFXComboBox>
-                        <TableView fx:id="tableView" prefHeight="220.0" prefWidth="1120.0" stylesheets="@../style/table.css">
+                        <TableView fx:id="tableView" onContextMenuRequested="#tableViewContextMenuAction" prefHeight="260.0" prefWidth="1120.0" stylesheets="@../style/table.css">
                            <columns>
                               <TableColumn fx:id="columnTestName" prefWidth="119.19995248317719" text="Nazwa testu" />
                            </columns>
@@ -69,8 +71,16 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <contextMenu>
+                              <ContextMenu fx:id="contextMenu">
+                                <items>
+                                  <MenuItem fx:id="menuItemEdit" mnemonicParsing="false" onAction="#menuItemEditAction" text="Edytuj" />
+                                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#menuItemDeleteAction" text="Usuń" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
                         </TableView>
-                        <JFXTextField fx:id="textFieldTestName" labelFloat="true" onKeyReleased="#isLetterAction" promptText="Wprowadź nazwę nowego testu">
+                        <JFXTextField fx:id="textFieldTestName" labelFloat="true" onAction="#textFieldTestNameAction" onKeyReleased="#isLetterAction" promptText="Wprowadź nazwę nowego testu">
                            <VBox.margin>
                               <Insets left="10.0" right="10.0" top="25.0" />
                            </VBox.margin>

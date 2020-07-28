@@ -33,4 +33,8 @@ public class Subject {
             cascade = CascadeType.PERSIST)
     private List<Test> tests = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return subjectName.toUpperCase();
+    }
 }
