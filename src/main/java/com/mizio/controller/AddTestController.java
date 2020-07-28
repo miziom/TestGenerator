@@ -3,6 +3,7 @@ package com.mizio.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.concurrency.TableViewTestThread;
 import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
@@ -28,6 +29,8 @@ public class AddTestController implements Initializable {
 
     private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
 
+    private EditTestController editTestController = new EditTestController();
+
     @FXML
     private JFXButton buttonBack;
 
@@ -42,6 +45,9 @@ public class AddTestController implements Initializable {
 
     @FXML
     private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemEdit;
 
     @FXML
     private MenuItem menuItemDelete;
@@ -74,6 +80,19 @@ public class AddTestController implements Initializable {
     }
 
     @FXML
+    void menuItemEditAction(ActionEvent event) {
+        TableViewTestThread tableViewTestThread = new TableViewTestThread(
+                tableView,
+                columnTestName,
+                comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID()
+        );
+        new Thread(tableViewTestThread).start();
+        editTestController.setThread(tableViewTestThread);
+        editTestController.setSubjectAndTest(tableView.getSelectionModel().getSelectedItem());
+        ViewManager.loadNewWindow(PathPattern.EDIT_TEST_VIEW, TitlePattern.EDIT_TEST_VIEW, Test.class);
+    }
+
+    @FXML
     void menuItemDeleteAction(ActionEvent event) {
         if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
             for (Test test:tableView.getSelectionModel().getSelectedItems()) {
@@ -86,7 +105,11 @@ public class AddTestController implements Initializable {
 
     @FXML
     void tableViewContextMenuAction(ContextMenuEvent event) {
-
+        if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+            menuItemEdit.setDisable(true);
+        } else {
+            menuItemEdit.setDisable(false);
+        }
     }
 
     @FXML
