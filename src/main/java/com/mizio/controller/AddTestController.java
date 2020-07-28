@@ -3,6 +3,7 @@ package com.mizio.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
@@ -13,10 +14,9 @@ import com.mizio.repository.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -39,6 +39,12 @@ public class AddTestController implements Initializable {
 
     @FXML
     private TableColumn<Test, String> columnTestName;
+
+    @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemDelete;
 
     @FXML
     private JFXTextField textFieldTestName;
@@ -65,6 +71,22 @@ public class AddTestController implements Initializable {
     @FXML
     void isLetterAction(KeyEvent event) {
         checkButton();
+    }
+
+    @FXML
+    void menuItemDeleteAction(ActionEvent event) {
+        if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
+            for (Test test:tableView.getSelectionModel().getSelectedItems()) {
+                repositoryService.deleteObject(test.getClass(), test.getTestID());
+            }
+            repositoryListViewer.saveOrUpdateList();
+            tableViewRefresh();
+        }
+    }
+
+    @FXML
+    void tableViewContextMenuAction(ContextMenuEvent event) {
+
     }
 
     @FXML
