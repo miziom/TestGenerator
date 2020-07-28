@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -15,7 +17,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mizio.controller.AddSubjectController">
    <children>
@@ -54,7 +55,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1140.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TableView fx:id="tableView" prefHeight="215.0" prefWidth="1100.0" stylesheets="@../style/table.css">
+                        <TableView fx:id="tableView" onContextMenuRequested="#tableViewContextMenuAction" prefHeight="250.0" prefWidth="1100.0" stylesheets="@../style/table.css">
                            <columns>
                               <TableColumn fx:id="columnSubjectName" prefWidth="119.19995248317719" text="Nazwa przedmiotu" />
                            </columns>
@@ -64,6 +65,14 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <contextMenu>
+                              <ContextMenu fx:id="contextMenu">
+                                <items>
+                                  <MenuItem fx:id="menuItemEdit" mnemonicParsing="false" onAction="#menuItemEditAction" text="Edytuj" />
+                                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#menuItemDeleteAction" text="Usuń" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
                         </TableView>
                         <JFXTextField fx:id="textFieldSubjectName" labelFloat="true" onAction="#textFieldSubjectNameAction" onKeyReleased="#isLetterAction" prefHeight="35.0" prefWidth="1100.0" promptText="Wprowadź nazwę nowego przedmiotu">
                            <VBox.margin>
