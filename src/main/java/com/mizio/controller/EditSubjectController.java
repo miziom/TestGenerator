@@ -70,6 +70,7 @@ public class EditSubjectController implements Initializable {
     }
 
     public static void clean() {
+        thread.notifyGuard();
         subjectID = 0;
         subject = null;
         thread = null;
@@ -90,7 +91,6 @@ public class EditSubjectController implements Initializable {
     }
 
     private void closeStage() {
-        thread.notifyGuard();
         clean();
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
