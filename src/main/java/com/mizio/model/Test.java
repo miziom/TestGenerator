@@ -37,4 +37,9 @@ public class Test {
             orphanRemoval = true,
             cascade = CascadeType.PERSIST)
     private List<Question> questions = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return this.getTestName().toUpperCase();
+    }
 }
