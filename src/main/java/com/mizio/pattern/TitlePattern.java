@@ -17,4 +17,5 @@ public class TitlePattern {
     public static final String DELETE_AMOUNT_PUP_UP = "Czy chcesz usunąć %d obiektów";
     public static final String NO_CONTENT           = "-";
     public static final String COUNTER_QUESTION     = "Liczba pytań: %d";
+    public static final String NO_IMG               = "BRAK";
 }
