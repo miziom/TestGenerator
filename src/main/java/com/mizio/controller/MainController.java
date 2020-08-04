@@ -2,6 +2,7 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Question;
 import com.mizio.model.Subject;
@@ -15,11 +16,9 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -85,6 +84,15 @@ public class MainController implements Initializable {
     private TableColumn<Question, String> columnCorrectAnswer;
 
     @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemEdit;
+
+    @FXML
+    private MenuItem menuItemDelete;
+
+    @FXML
     void buttonAddFileAction(ActionEvent event) {
         ViewManager.loadWindow(PathPattern.ADD_FILE_VIEW, TitlePattern.ADD_FILE_VIEW, event);
     }
@@ -125,6 +133,31 @@ public class MainController implements Initializable {
         tableViewRefresh();
     }
 
+    @FXML
+    void menuItemEditAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void menuItemDeleteAction(ActionEvent event) {
+        if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
+            for (Question question:tableView.getSelectionModel().getSelectedItems()) {
+                repositoryService.deleteObject(question.getClass(), question.getQuestionID());
+            }
+            repositoryListViewer.saveOrUpdateList();
+            tableViewRefresh();
+        }
+    }
+
+    @FXML
+    void tableViewContextMenuAction(ContextMenuEvent event) {
+        if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+            menuItemEdit.setDisable(true);
+        } else {
+            menuItemEdit.setDisable(false);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (repositoryListViewer.getSubjectList() == null) {
@@ -142,6 +175,9 @@ public class MainController implements Initializable {
         if (!comboBoxSubject.getSelectionModel().getSelectedItem().getTests().isEmpty()) {
             comboBoxTest.getItems().setAll(comboBoxSubject.getSelectionModel().getSelectedItem().getTests());
             comboBoxTest.getSelectionModel().selectFirst();
+        }
+        else {
+            comboBoxTest.getItems().clear();
         }
     }
 
@@ -196,7 +232,10 @@ public class MainController implements Initializable {
         });
         columnCorrectAnswer.setCellValueFactory(new PropertyValueFactory<>("answerCorrect"));
         if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
-            tableView.getItems().setAll(comboBoxTest.getSelectionModel().getSelectedItem().getQuestions());
+            tableView.getItems().setAll(repositoryListViewer.getTest(
+                    comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
+                    comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
+            .getQuestions());
         }
         setLabelQuestionCounter();
     }
