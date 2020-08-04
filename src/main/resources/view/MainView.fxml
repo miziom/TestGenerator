@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -127,7 +129,7 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </VBox.margin>
                         </GridPane>
-                        <TableView fx:id="tableVIew" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#tableViewContextMenuAction" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="columnQuestionName" text="Pytanie" />
                             <TableColumn fx:id="columnImage" prefWidth="75.0" text="Obraz" />
@@ -144,6 +146,14 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <contextMenu>
+                              <ContextMenu fx:id="contextMenu">
+                                <items>
+                                  <MenuItem fx:id="menuItemEdit" mnemonicParsing="false" onAction="#menuItemEditAction" text="Edytuj" />
+                                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#menuItemDeleteAction" text="Usuń" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
                         </TableView>
                      </children></VBox>
                </children>
