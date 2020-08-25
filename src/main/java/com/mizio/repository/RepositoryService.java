@@ -18,6 +18,10 @@ public class RepositoryService {
         return repository.deleteObject(tClass, ID);
     }
 
+    public void removeImage(int id) {
+        repository.removeImage(id);
+    }
+
     public List<Subject> getSubjectsList() {
         return repository.getSubjectsList();
     }
