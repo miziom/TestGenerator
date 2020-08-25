@@ -4,11 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import com.mizio.concurrency.TableViewQuestionThread;
 import com.mizio.manager.ImageManager;
 import com.mizio.manager.PopUpManager;
-import com.mizio.manager.ViewManager;
 import com.mizio.model.*;
-import com.mizio.pattern.PathPattern;
+import com.mizio.pattern.LabelPattern;
 import com.mizio.pattern.TitlePattern;
 import com.mizio.repository.RepositoryListViewer;
 import com.mizio.repository.RepositoryService;
@@ -19,27 +19,31 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddQuestionController implements Initializable {
+public class EditQuestionController implements Initializable {
 
     private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
-
     private RepositoryService repositoryService = new RepositoryService();
-
     private static Image image = null;
-
-    @FXML
-    private JFXButton buttonBack;
+    private static Question question = null;
+    private static TableViewQuestionThread thread = null;
 
     @FXML
     private JFXComboBox<Subject> comboBoxSubject;
 
     @FXML
     private JFXComboBox<Test> comboBoxTest;
+
+    @FXML
+    private JFXComboBox<Subject> comboBoxSubjectChoosed;
+
+    @FXML
+    private JFXComboBox<Test> comboBoxTestChoosed;
 
     @FXML
     private JFXTextField textFieldQuestionName;
@@ -60,7 +64,7 @@ public class AddQuestionController implements Initializable {
     private JFXButton buttonAddImg;
 
     @FXML
-    private ImageView imgCheckmark;
+    private ImageView imgCheckMark;
 
     @FXML
     private JFXTextField textFieldAnswerA;
@@ -90,52 +94,64 @@ public class AddQuestionController implements Initializable {
     private JFXRadioButton radioCorrectD;
 
     @FXML
-    private JFXButton buttonAddQuestion;
+    private JFXButton buttonEditQuestion;
+
+    @FXML
+    private JFXButton buttonClose;
 
     @FXML
     void buttonAddImgAction(ActionEvent event) {
         File file = PopUpManager.directoryChooser(event);
-        if (file != null) {
+        if (file != null && question.getImage() == null) {
             byte[] byteImage = ImageManager.getByteFromFile(file);
             image = Image.builder()
                     .imageName(file.getName())
                     .image(byteImage)
                     .build();
             buttonAddImg.setText(file.getName());
-            imgCheckmark.setVisible(true);
-        } else {
+            imgCheckMark.setVisible(true);
+        } else if (file != null && question.getImage() != null) {
+            image = question.getImage();
+            byte[] byteImage = ImageManager.getByteFromFile(file);
+            image.setImageName(file.getName());
+            image.setImage(byteImage);
+            buttonAddImg.setText(file.getName());
+            imgCheckMark.setVisible(true);
+        }
+        else {
             image = null;
             buttonAddImg.setText(TitlePattern.NO_IMG);
-            imgCheckmark.setVisible(false);
+            imgCheckMark.setVisible(false);
         }
     }
 
     @FXML
-    void buttonAddQuestionAction(ActionEvent event) {
-        addQuestion();
+    void buttonCloseAction(ActionEvent event) {
+        closeStage();
     }
 
     @FXML
-    void buttonBackAction(ActionEvent event) {
-        ViewManager.loadWindow(PathPattern.MAIN_VIEW, TitlePattern.MAIN_VIEW, event);
+    void buttonEditQuestionAction(ActionEvent event) {
+        editQuestion();
+        closeStage();
     }
 
     @FXML
     void comboBoxSubjectAction(ActionEvent event) {
         comboBoxTestRefresh();
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void comboBoxTestAction(ActionEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void imgCheckMarkMouseClicked(MouseEvent event) {
         image = null;
+        imgCheckMark.setVisible(false);
         buttonAddImg.setText(TitlePattern.NO_IMG);
-        imgCheckmark.setVisible(false);
     }
 
     @FXML
@@ -143,7 +159,7 @@ public class AddQuestionController implements Initializable {
         radioAB.setSelected(true);
         clearTextField();
         checkRadioABCD();
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
@@ -151,91 +167,158 @@ public class AddQuestionController implements Initializable {
         radioABC.setSelected(true);
         clearTextField();
         checkRadioABCD();
-        checkAddButton();
-
+        checkEditButton();
     }
 
     @FXML
     void radioABCDAction(ActionEvent event) {
         radioABCD.setSelected(true);
+        clearTextField();
         checkRadioABCD();
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldAnswerAAction(ActionEvent event) {
-        if (checkAddButton()) {
-            addQuestion();
+        if (checkEditButton()) {
+            editQuestion();
+            closeStage();
         }
     }
 
     @FXML
     void textFieldAnswerAisLetter(KeyEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldAnswerBAction(ActionEvent event) {
-        if (checkAddButton()) {
-            addQuestion();
+        if (checkEditButton()) {
+            editQuestion();
+            closeStage();
         }
     }
 
     @FXML
     void textFieldAnswerBisLetter(KeyEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldAnswerCAction(ActionEvent event) {
-        if (checkAddButton()) {
-            addQuestion();
+        if (checkEditButton()) {
+            editQuestion();
+            closeStage();
         }
     }
 
     @FXML
     void textFieldAnswerCisLetter(KeyEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldAnswerDAction(ActionEvent event) {
-        if (checkAddButton()) {
-            addQuestion();
+        if (checkEditButton()) {
+            editQuestion();
+            closeStage();
         }
     }
 
     @FXML
     void textFieldAnswerDisLetter(KeyEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldQuestionIsLetter(KeyEvent event) {
-        checkAddButton();
+        checkEditButton();
     }
 
     @FXML
     void textFieldQuestionNameAction(ActionEvent event) {
-        if (checkAddButton()) {
-            addQuestion();
+        if (checkEditButton()) {
+            editQuestion();
+            closeStage();
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (repositoryListViewer.getSubjectList() == null) {
-            repositoryListViewer.saveOrUpdateList();
+        if (image != null) {
+            imgCheckMark.setVisible(true);
+            buttonAddImg.setText(image.getImageName());
+
+        } else {
+            imgCheckMark.setVisible(false);
+            buttonAddImg.setText(TitlePattern.NO_IMG);
         }
-        if (!repositoryListViewer.getSubjectList().isEmpty()) {
-            comboBoxSubject.getItems().setAll(repositoryListViewer.getSubjectList());
-            comboBoxSubject.getSelectionModel().selectFirst();
-            comboBoxTestRefresh();
-        }
-        buttonAddImg.setText(TitlePattern.NO_IMG);
-        imgCheckmark.setVisible(false);
-        buttonAddQuestion.setDisable(true);
+        comboBoxSubject.getItems().setAll(repositoryListViewer.getSubjectList());
+        comboBoxSubject.getSelectionModel().select(question.getSubject());
+        comboBoxTestRefresh();
+        comboBoxTest.getSelectionModel().select(question.getTest());
+        comboBoxSubjectChoosed.getItems().setAll(repositoryListViewer.getSubjectList());
+        comboBoxSubjectChoosed.getSelectionModel().select(question.getSubject());
+        comboBoxTestChoosed.getItems().setAll(question.getSubject().getTests());
+        comboBoxTestChoosed.getSelectionModel().select(question.getTest());
+        fillTextFields();
+        markCorrectAnswer();
         checkRadioABCD();
+    }
+
+    public void setItems(Question myQuestion, TableViewQuestionThread tableViewQuestionThread) {
+        question = myQuestion;
+        thread = tableViewQuestionThread;
+        if (myQuestion.getImage() != null) {
+            image = myQuestion.getImage();
+        }
+    }
+
+    public static void clean() {
+        thread.notifyGuard();
+        question = null;
+        image = null;
+        thread = null;
+    }
+
+    private void closeStage() {
+        clean();
+        Stage stage = (Stage) buttonClose.getScene().getWindow();
+        stage.close();
+    }
+
+    private void fillTextFields() {
+        textFieldQuestionName.setPromptText(String.format(LabelPattern.QUESTION_OLD_NAME, question.getQuestionName()));
+        textFieldQuestionName.setText(question.getQuestionName());
+        textFieldAnswerA.setPromptText(String.format(LabelPattern.QUESTION_OLD_A, question.getAnswersContent().getAnswerA()));
+        textFieldAnswerA.setText(question.getAnswersContent().getAnswerA());
+        textFieldAnswerB.setPromptText(String.format(LabelPattern.QUESTION_OLD_B, question.getAnswersContent().getAnswerB()));
+        textFieldAnswerB.setText(question.getAnswersContent().getAnswerB());
+        if (question.getQuestionType() == QuestionType.AB) {
+            radioAB.setSelected(true);
+        } else if (question.getQuestionType() == QuestionType.ABC) {
+            radioABC.setSelected(true);
+            textFieldAnswerC.setPromptText(String.format(LabelPattern.QUESTION_OLD_C, question.getAnswersContent().getAnswerC()));
+            textFieldAnswerC.setText(question.getAnswersContent().getAnswerC());
+        } else if (question.getQuestionType() == QuestionType.ABCD) {
+            radioABCD.setSelected(true);
+            textFieldAnswerC.setPromptText(String.format(LabelPattern.QUESTION_OLD_C, question.getAnswersContent().getAnswerC()));
+            textFieldAnswerC.setText(question.getAnswersContent().getAnswerC());
+            textFieldAnswerD.setPromptText(String.format(LabelPattern.QUESTION_OLD_D, question.getAnswersContent().getAnswerD()));
+            textFieldAnswerD.setText(question.getAnswersContent().getAnswerD());
+        }
+    }
+
+    private void markCorrectAnswer() {
+        if (question.getAnswerCorrect() == AnswerCorrect.A) {
+            radioCorrectA.setSelected(true);
+        } else if (question.getAnswerCorrect() == AnswerCorrect.B) {
+            radioCorrectB.setSelected(true);
+        } else if (question.getAnswerCorrect() == AnswerCorrect.C) {
+            radioCorrectC.setSelected(true);
+        } else if (question.getAnswerCorrect() == AnswerCorrect.D) {
+            radioCorrectD.setSelected(true);
+        }
     }
 
     private void checkRadioABCD() {
@@ -268,32 +351,32 @@ public class AddQuestionController implements Initializable {
         }
     }
 
-    private boolean checkAddButton() {
+    private boolean checkEditButton() {
         if (comboBoxSubject.getSelectionModel().getSelectedItem() != null
-        && comboBoxTest.getSelectionModel().getSelectedItem() != null
-        && !textFieldQuestionName.getText().isBlank()
-        && !textFieldAnswerA.getText().isBlank()
-        && !textFieldAnswerB.getText().isBlank()) {
+                && comboBoxTest.getSelectionModel().getSelectedItem() != null
+                && !textFieldQuestionName.getText().isBlank()
+                && !textFieldAnswerA.getText().isBlank()
+                && !textFieldAnswerB.getText().isBlank()) {
             if (radioAB.isSelected()) {
-                buttonAddQuestion.setDisable(false);
+                buttonEditQuestion.setDisable(false);
                 return true;
             }
             else if (radioABC.isSelected()
                     && !textFieldAnswerC.getText().isBlank()) {
-                        buttonAddQuestion.setDisable(false);
-                        return true;
+                buttonEditQuestion.setDisable(false);
+                return true;
             }
             else if (radioABCD.isSelected()
                     && !textFieldAnswerC.getText().isBlank()
                     && !textFieldAnswerD.getText().isBlank()) {
-                        buttonAddQuestion.setDisable(false);
-                        return true;
+                buttonEditQuestion.setDisable(false);
+                return true;
             } else {
-                buttonAddQuestion.setDisable(true);
+                buttonEditQuestion.setDisable(true);
                 return false;
             }
         } else {
-            buttonAddQuestion.setDisable(true);
+            buttonEditQuestion.setDisable(true);
             return false;
         }
     }
@@ -307,35 +390,37 @@ public class AddQuestionController implements Initializable {
         }
     }
 
-    private void addQuestion() {
+    private void editQuestion() {
         Subject selectedSubject = comboBoxSubject.getSelectionModel().getSelectedItem();
         Test selectedTest = comboBoxTest.getSelectionModel().getSelectedItem();
-        Question question = Question.builder()
-                .subject(selectedSubject)
-                .test(selectedTest)
-                .questionName(textFieldQuestionName.getText().trim())
-                .build();
-        if (image != null) {
-            image.setSubject(selectedSubject);
-            image.setTest(selectedTest);
-            image.setQuestion(question);
+        question.setSubject(selectedSubject);
+        question.setTest(selectedTest);
+        if (image == null && question.getImage() != null) {
+            repositoryService.removeImage(question.getImage().getImageID());
+            question.setImage(null);
+        } else {
             question.setImage(image);
+            question.getImage().setSubject(selectedSubject);
+            question.getImage().setTest(selectedTest);
+            question.getImage().setQuestion(question);
         }
-        AnswersContent answersContent = AnswersContent.builder()
-                .subject(selectedSubject)
-                .test(selectedTest)
-                .question(question)
-                .answerA(textFieldAnswerA.getText().trim())
-                .answerB(textFieldAnswerB.getText().trim())
-                .build();
-        if (radioABC.isSelected()) {
-            answersContent.setAnswerC(textFieldAnswerC.getText().trim());
+        question.getAnswersContent().setSubject(selectedSubject);
+        question.getAnswersContent().setTest(selectedTest);
+        question.getAnswersContent().setAnswerA(textFieldAnswerA.getText().trim());
+        question.getAnswersContent().setAnswerB(textFieldAnswerB.getText().trim());
+        if (radioAB.isSelected()) {
+            question.getAnswersContent().setAnswerC(null);
+            question.getAnswersContent().setAnswerD(null);
+        }
+        else if (radioABC.isSelected()) {
+            question.getAnswersContent().setAnswerC(textFieldAnswerC.getText().trim());
+            question.getAnswersContent().setAnswerD(null);
         }
         else if (radioABCD.isSelected()) {
-            answersContent.setAnswerC(textFieldAnswerC.getText().trim());
-            answersContent.setAnswerD(textFieldAnswerD.getText().trim());
+            question.getAnswersContent().setAnswerC(textFieldAnswerC.getText().trim());
+            question.getAnswersContent().setAnswerD(textFieldAnswerD.getText().trim());
         }
-        question.setAnswersContent(answersContent);
+        question.setQuestionName(textFieldQuestionName.getText().trim());
         question.setAnswerCorrect(getAnswerCorrect());
         question.setQuestionType(getQuestionType());
         repositoryService.saveOrUpdateObject(question);
@@ -379,6 +464,6 @@ public class AddQuestionController implements Initializable {
         radioAB.setSelected(true);
         radioCorrectA.setSelected(true);
         checkRadioABCD();
-        checkAddButton();
+        checkEditButton();
     }
 }

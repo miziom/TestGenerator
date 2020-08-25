@@ -2,30 +2,35 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.mizio.concurrency.TableViewQuestionThread;
+import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Question;
+import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
+import com.mizio.repository.RepositoryListViewer;
 import com.mizio.repository.RepositoryService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
     RepositoryService repositoryService = new RepositoryService();
+
+    RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+
+    EditQuestionController editQuestionController = new EditQuestionController();
 
     @FXML
     private JFXButton buttonAddSubject;
@@ -46,16 +51,16 @@ public class MainController implements Initializable {
     private JFXButton buttonSettings;
 
     @FXML
-    private JFXComboBox<?> comboBoxSubject;
+    private JFXComboBox<Subject> comboBoxSubject;
 
     @FXML
-    private JFXComboBox<?> comboBoxTest;
+    private JFXComboBox<Test> comboBoxTest;
 
     @FXML
     private Label labelQuestionCounter;
 
     @FXML
-    private TableView<Question> tableVIew;
+    private TableView<Question> tableView;
 
     @FXML
     private TableColumn<Question, String> columnQuestionName;
@@ -80,6 +85,15 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<Question, String> columnCorrectAnswer;
+
+    @FXML
+    private ContextMenu contextMenu;
+
+    @FXML
+    private MenuItem menuItemEdit;
+
+    @FXML
+    private MenuItem menuItemDelete;
 
     @FXML
     void buttonAddFileAction(ActionEvent event) {
@@ -113,21 +127,99 @@ public class MainController implements Initializable {
 
     @FXML
     void comboBoxSubjectAction(ActionEvent event) {
-
+        comboBoxTestRefresh();
+        tableViewRefresh();
     }
 
     @FXML
     void comboBoxTestAction(ActionEvent event) {
+        tableViewRefresh();
+    }
 
+    @FXML
+    void menuItemEditAction(ActionEvent event) {
+        TableViewQuestionThread tableViewQuestionThread = new TableViewQuestionThread(
+                tableView.getSelectionModel().getSelectedItem(),
+                tableView,
+                columnQuestionName,
+                columnImage,
+                columnQuestionType,
+                columnA,
+                columnB,
+                columnC,
+                columnD,
+                columnCorrectAnswer,
+                labelQuestionCounter);
+        new Thread(tableViewQuestionThread).start();
+        editQuestionController.setItems(tableView.getSelectionModel().getSelectedItem(), tableViewQuestionThread);
+        ViewManager.loadNewWindow(PathPattern.EDIT_QUESTION_VIEW, TitlePattern.EDIT_QUESTION_VIEW, Question.class);
+    }
+
+    @FXML
+    void menuItemDeleteAction(ActionEvent event) {
+        if (PopUpManager.deleteItems(tableView.getSelectionModel().getSelectedItems())) {
+            for (Question question:tableView.getSelectionModel().getSelectedItems()) {
+                repositoryService.deleteObject(question.getClass(), question.getQuestionID());
+            }
+            repositoryListViewer.saveOrUpdateList();
+            tableViewRefresh();
+        }
+    }
+
+    @FXML
+    void tableViewContextMenuAction(ContextMenuEvent event) {
+        if (tableView.getSelectionModel().getSelectedItems().size() > 1) {
+            menuItemEdit.setDisable(true);
+        } else {
+            menuItemEdit.setDisable(false);
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Test test = repositoryService.getObject(Test.class, 3);
-        List<Question> questions = test.getQuestions();
-        tableVIew.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        if (repositoryListViewer.getSubjectList() == null) {
+            repositoryListViewer.saveOrUpdateList();
+        }
+        if (!repositoryListViewer.getSubjectList().isEmpty()) {
+            comboBoxSubject.getItems().setAll(repositoryListViewer.getSubjectList());
+            comboBoxSubject.getSelectionModel().selectFirst();
+            comboBoxTestRefresh();
+            tableViewRefresh();
+        }
+    }
+
+    private void comboBoxTestRefresh() {
+        if (!comboBoxSubject.getSelectionModel().getSelectedItem().getTests().isEmpty()) {
+            comboBoxTest.getItems().setAll(comboBoxSubject.getSelectionModel().getSelectedItem().getTests());
+            comboBoxTest.getSelectionModel().selectFirst();
+        }
+        else {
+            comboBoxTest.getItems().clear();
+        }
+    }
+
+    private void setLabelQuestionCounter() {
+        if(tableView.getItems().isEmpty()) {
+            labelQuestionCounter.setText(String.format(TitlePattern.COUNTER_QUESTION, 0));
+        } else {
+            labelQuestionCounter.setText(String.format(TitlePattern.COUNTER_QUESTION, tableView.getItems().size()));
+        }
+    }
+
+    private void tableViewRefresh() {
+        tableView.getItems().clear();
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         columnQuestionName.setCellValueFactory(new PropertyValueFactory<>("questionName"));
         columnImage.setCellValueFactory(new PropertyValueFactory<>("image"));
+        columnImage.setCellValueFactory(data -> {
+            StringProperty stringProperty = new SimpleStringProperty();
+            if (data.getValue().getImage() == null) {
+                stringProperty.setValue(TitlePattern.NO_CONTENT);
+            } else {
+                stringProperty.setValue(data.getValue().getImage().getImageName());
+            }
+            return stringProperty;
+        });
         columnQuestionType.setCellValueFactory(new PropertyValueFactory<>("questionType"));
         columnA.setCellValueFactory(data -> {
             StringProperty stringProperty = new SimpleStringProperty();
@@ -137,14 +229,13 @@ public class MainController implements Initializable {
         columnB.setCellValueFactory(data -> {
             StringProperty stringProperty = new SimpleStringProperty();
             stringProperty.setValue(String.valueOf(data.getValue().getAnswersContent().getAnswerB()));
-
             return stringProperty;
         });
         columnC.setCellValueFactory(data -> {
             StringProperty stringProperty = new SimpleStringProperty();
             stringProperty.setValue(String.valueOf(data.getValue().getAnswersContent().getAnswerC()));
             if(data.getValue().getAnswersContent().getAnswerC() == null) {
-                stringProperty.setValue("-");
+                stringProperty.setValue(TitlePattern.NO_CONTENT);
             }
             return stringProperty;
         });
@@ -152,12 +243,17 @@ public class MainController implements Initializable {
             StringProperty stringProperty = new SimpleStringProperty();
             stringProperty.setValue(String.valueOf(data.getValue().getAnswersContent().getAnswerD()));
             if(data.getValue().getAnswersContent().getAnswerD() == null) {
-                stringProperty.setValue("-");
+                stringProperty.setValue(TitlePattern.NO_CONTENT);
             }
             return stringProperty;
         });
         columnCorrectAnswer.setCellValueFactory(new PropertyValueFactory<>("answerCorrect"));
-        tableVIew.getItems().setAll(questions);
-
+        if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
+            tableView.getItems().setAll(repositoryListViewer.getTest(
+                    comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
+                    comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
+            .getQuestions());
+        }
+        setLabelQuestionCounter();
     }
 }

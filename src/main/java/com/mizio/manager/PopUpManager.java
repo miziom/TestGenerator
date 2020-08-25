@@ -3,12 +3,16 @@ package com.mizio.manager;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Optional;
 
 public class PopUpManager {
@@ -30,4 +34,12 @@ public class PopUpManager {
         }
     }
 
+    public static File directoryChooser(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter(
+                "Images", "*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tiff"
+        );
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        return fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
+    }
 }
