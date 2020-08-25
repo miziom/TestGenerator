@@ -2,6 +2,7 @@ package com.mizio.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.mizio.concurrency.TableViewQuestionThread;
 import com.mizio.manager.PopUpManager;
 import com.mizio.manager.ViewManager;
 import com.mizio.model.Question;
@@ -28,6 +29,8 @@ public class MainController implements Initializable {
     RepositoryService repositoryService = new RepositoryService();
 
     RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+
+    EditQuestionController editQuestionController = new EditQuestionController();
 
     @FXML
     private JFXButton buttonAddSubject;
@@ -135,7 +138,21 @@ public class MainController implements Initializable {
 
     @FXML
     void menuItemEditAction(ActionEvent event) {
-
+        TableViewQuestionThread tableViewQuestionThread = new TableViewQuestionThread(
+                tableView.getSelectionModel().getSelectedItem(),
+                tableView,
+                columnQuestionName,
+                columnImage,
+                columnQuestionType,
+                columnA,
+                columnB,
+                columnC,
+                columnD,
+                columnCorrectAnswer,
+                labelQuestionCounter);
+        new Thread(tableViewQuestionThread).start();
+        editQuestionController.setItems(tableView.getSelectionModel().getSelectedItem(), tableViewQuestionThread);
+        ViewManager.loadNewWindow(PathPattern.EDIT_QUESTION_VIEW, TitlePattern.EDIT_QUESTION_VIEW, Question.class);
     }
 
     @FXML

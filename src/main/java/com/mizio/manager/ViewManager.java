@@ -1,5 +1,6 @@
 package com.mizio.manager;
 
+import com.mizio.controller.EditQuestionController;
 import com.mizio.controller.EditSubjectController;
 import com.mizio.controller.EditTestController;
 import com.mizio.model.Question;
@@ -54,7 +55,7 @@ public class ViewManager {
                 EditTestController.clean();
             }
             else if (tClass == Question.class) {
-
+                EditQuestionController.clean();
             }
         });
         stage.show();
