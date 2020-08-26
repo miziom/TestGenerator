@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
 
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 public class RepositoryListViewer {
 
+    private static List<GroupDetail> groupDetailList;
     private static List<Subject> subjectList;
     private RepositoryService repositoryService = new RepositoryService();
 
@@ -17,6 +19,13 @@ public class RepositoryListViewer {
 
     public List<Subject> getSubjectList() {
         return subjectList;
+    }
+    public void saveOrUpdateGroupDetailList() {
+        groupDetailList = repositoryService.getGroupDetailList();
+    }
+
+    public List<GroupDetail> getGroupDetailList() {
+        return groupDetailList;
     }
 
     public Subject getSubject(int ID) {

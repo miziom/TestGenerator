@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface Repository {
     <T> boolean deleteObject(Class<T> tClass, int ID);
     void removeImage(int id);
     List<Subject> getSubjectsList();
+    List<GroupDetail> getGroupDetailList();
 }
