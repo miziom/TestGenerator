@@ -20,7 +20,7 @@ public class GroupDetail {
     @Column(name = "group_detail_id",
         updatable = false,
         nullable = false)
-    private int imageID;
+    private int groupID;
 
     @Column(name = "group_name",
         nullable = false)

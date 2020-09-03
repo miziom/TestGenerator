@@ -13,7 +13,9 @@ public class TitlePattern {
     public static final String SETTINGS_VIEW        = "Generator Testów - Ustawienia";
     public static final String YES                  = "TAK";
     public static final String NO                   = "NIE";
+    public static final String OK                   = "OK";
     public static final String DELETE_PUP_UP        = "Usuwanie obiektów";
+    public static final String INFO_POP_UP          = "Informacja dla Użytkownika";
     public static final String DELETE_AMOUNT_PUP_UP = "Czy chcesz usunąć %d obiektów";
     public static final String NO_CONTENT           = "-";
     public static final String COUNTER_QUESTION     = "Liczba pytań: %d";
