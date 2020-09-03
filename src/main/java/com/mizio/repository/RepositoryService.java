@@ -1,4 +1,5 @@
 package com.mizio.repository;
+import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 import java.util.List;
 
@@ -24,5 +25,8 @@ public class RepositoryService {
 
     public List<Subject> getSubjectsList() {
         return repository.getSubjectsList();
+    }
+    public List<GroupDetail> getGroupDetailList() {
+        return repository.getGroupDetailList();
     }
 }

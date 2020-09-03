@@ -42,4 +42,24 @@ public class PopUpManager {
         fileChooser.getExtensionFilters().add(extensionFilter);
         return fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
     }
+
+    public static File saveFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter(
+                "All Files", "*.*"
+        );
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        return fileChooser.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
+    }
+
+    public static void showInformation(String infoText) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(PopUpManager.class.getResourceAsStream(PathPattern.ICON_APP)));
+        alert.setTitle(TitlePattern.INFO_POP_UP);
+        alert.setContentText(infoText);
+        ButtonType buttonOk = new ButtonType(TitlePattern.OK, ButtonBar.ButtonData.OK_DONE);
+        alert.getButtonTypes().setAll(buttonOk);
+        alert.showAndWait();
+    }
 }
