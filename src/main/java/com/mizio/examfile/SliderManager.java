@@ -16,11 +16,11 @@ import java.util.List;
 @Setter
 public class SliderManager {
 
-    double fontSize;
-    int bottomPosQuestNumShape;
-    PresentationManager presentationManager;
-    XSLFSlide slide;
-    Rectangle imageRectangle;
+    private double fontSize;
+    private int bottomPosQuestNumShape;
+    private PresentationManager presentationManager;
+    private XSLFSlide slide;
+    private Rectangle imageRectangle;
 
     public SliderManager(PresentationManager presentationManager) {
         this.fontSize = 28.;
@@ -150,11 +150,7 @@ public class SliderManager {
                 r.setText(this.getPresentationManager().getDrawManager().getGroupThird().get(slideNumber).getQuestionName());
             }break;
         }
-        int alpha = this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor().getAlpha();
-        int red = this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor().getRed();
-        int green = this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor().getGreen();
-        int blue = this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor().getBlue();
-        r.setFontColor(this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor());
+        r.setFontColor(this.getPresentationManager().getGroupDetailList().get(groupNumber-1).getGroupColor());
         r.setFontSize(this.getFontSize());
         paragraph.addLineBreak();
         this.writeAnswers(groupNumber, slideNumber, paragraph);
@@ -180,7 +176,7 @@ public class SliderManager {
             for(int i = 0; i< answers.size(); i++){
                 XSLFTextRun r = paragraph.addNewTextRun();
                 r.setText(fillAnswer(i, answers.get(i)));
-                r.setFontColor(this.getPresentationManager().groupDetailList.get(groupNumber-1).getGroupColor());
+                r.setFontColor(this.getPresentationManager().getGroupDetailList().get(groupNumber-1).getGroupColor());
                 r.setFontSize(this.getFontSize());
             }
 

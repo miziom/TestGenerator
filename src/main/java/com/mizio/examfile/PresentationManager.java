@@ -13,9 +13,9 @@ import java.util.List;
 @Setter
 public class PresentationManager {
 
-    XMLSlideShow ppt;
-    DrawManager drawManager;
-    List<GroupDetail> groupDetailList;
+    private XMLSlideShow ppt;
+    private DrawManager drawManager;
+    private List<GroupDetail> groupDetailList;
 
     public PresentationManager(XMLSlideShow ppt, DrawManager drawManager, List<GroupDetail> groupDetails) {
         this.ppt = ppt;
@@ -26,7 +26,6 @@ public class PresentationManager {
 
     public void createTest() {
         for (int slideNumber = 0; slideNumber < this.getDrawManager().getQuestionDTOList().size(); slideNumber++) {
-            System.out.println(slideNumber);
             int counter = 0;
             SliderManager sliderManager = new SliderManager(this);
             sliderManager.createSlide(slideNumber);
