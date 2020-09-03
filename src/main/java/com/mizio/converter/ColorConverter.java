@@ -17,9 +17,7 @@ public class ColorConverter implements AttributeConverter<Color, String> {
                 + SEPARATOR
                 + color.getGreen()
                 + SEPARATOR
-                + color.getBlue()
-                + SEPARATOR
-                + color.getAlpha();
+                + color.getBlue();
     }
 
     /**
@@ -32,8 +30,7 @@ public class ColorConverter implements AttributeConverter<Color, String> {
         return new Color(
                 Integer.parseInt(rgb[0]),
                 Integer.parseInt(rgb[1]),
-                Integer.parseInt(rgb[2]),
-                Integer.parseInt(rgb[3])
+                Integer.parseInt(rgb[2])
         );
     }
 }
