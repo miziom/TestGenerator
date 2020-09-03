@@ -30,4 +30,9 @@ public class GroupDetail {
         nullable = false)
     @Convert(converter = ColorConverter.class)
     private Color groupColor;
+
+    @Override
+    public String toString() {
+        return this.getGroupName().toUpperCase();
+    }
 }

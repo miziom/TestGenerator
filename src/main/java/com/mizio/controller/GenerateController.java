@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
 import com.mizio.dto.QuestionDTO;
 import com.mizio.examfile.PresentationManager;
+import com.mizio.keyfile.ExcelManager;
 import com.mizio.manager.*;
 import com.mizio.mapper.Mapper;
 import com.mizio.model.GroupDetail;
@@ -25,9 +26,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +118,16 @@ public class GenerateController implements Initializable {
                             listManager.getQuestionDTOList()
                     );
                     drawManager.drawGroups();
-
+                    PresentationManager presentationManager = new PresentationManager(new XMLSlideShow(), drawManager, getGroupDetailList());
+                    presentationManager.createTest();
+                    ExcelManager excelManager = new ExcelManager(drawManager, getGroupDetailList(), new XSSFWorkbook());
+                    excelManager.createKey();
+                    File saveFile = PopUpManager.saveFile(event);
+                    FileOutManager fileOutManager = new FileOutManager(
+                            presentationManager.getPpt(),
+                            excelManager.getWorkbook(),
+                            saveFile);
+                    fileOutManager.saveFiles();
                 } else {
                     PopUpManager.showInformation(String.format(LabelPattern.IMAGE_NUMBER_ALERT,
                             listManager.getQuestionDTOList().size(),
@@ -139,18 +149,14 @@ public class GenerateController implements Initializable {
             drawManager.drawGroups();
             PresentationManager presentationManager = new PresentationManager(new XMLSlideShow(), drawManager, getGroupDetailList());
             presentationManager.createTest();
-
-            File save = PopUpManager.saveFile(event);
-            String absolutePath = save.getAbsolutePath();
-            File ppt = new File(absolutePath +  "Prezentacja.pptx");
-            try (FileOutputStream out = new FileOutputStream(ppt)) {
-                presentationManager.getPpt().write(out);
-                out.close();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-
+            ExcelManager excelManager = new ExcelManager(drawManager, getGroupDetailList(), new XSSFWorkbook());
+            excelManager.createKey();
+            File saveFile = PopUpManager.saveFile(event);
+            FileOutManager fileOutManager = new FileOutManager(
+                    presentationManager.getPpt(),
+                    excelManager.getWorkbook(),
+                    saveFile);
+            fileOutManager.saveFiles();
         }
     }
 
