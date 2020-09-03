@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mizio.controller.MainController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <left>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="140.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton id="toolbar-button" fx:id="buttonAddSubject" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonAddSubjectAction" text="Dodaj przedmiot" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_add_subject.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="toolbar-button" fx:id="buttonAddTest" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonAddTestAction" text="Dodaj test" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_add_test.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="toolbar-button" fx:id="buttonAddQuestion" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="626.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonAddQuestionAction" text="Dodaj pytanie" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_add_question.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="toolbar-button" fx:id="buttonAddFile" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="626.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonAddFileAction" text="Dodaj plik" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_add_file.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="toolbar-button" fx:id="buttonGenerate" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="550.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonGenerateAction" text="Generuj test" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_generate.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="toolbar-button" fx:id="buttonSettings" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="586.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonSettingsAction" text="Ustawienia" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <center>
+            <AnchorPane prefHeight="720.0" prefWidth="1120.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <GridPane prefHeight="50.0" prefWidth="1109.0" vgap="5.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <JFXComboBox fx:id="comboBoxSubject" labelFloat="true" onAction="#comboBoxSubjectAction" prefHeight="30.0" prefWidth="200.0" promptText="Przedmiot" />
+                              <JFXComboBox fx:id="comboBoxTest" labelFloat="true" onAction="#comboBoxTestAction" prefHeight="30.0" prefWidth="200.0" promptText="Test" GridPane.columnIndex="1" />
+                              <Label fx:id="labelQuestionCounter" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="50.0" text="Liczba pytań: " textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font></Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="15.0" right="15.0" top="10.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <TableView fx:id="tableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onContextMenuRequested="#tableViewContextMenuAction" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="columnQuestionName" text="Pytanie" />
+                            <TableColumn fx:id="columnImage" prefWidth="75.0" text="Obraz" />
+                              <TableColumn fx:id="columnQuestionType" prefWidth="75.0" text="Typ" />
+                              <TableColumn fx:id="columnA" prefWidth="75.0" text="A" />
+                              <TableColumn fx:id="columnB" prefWidth="75.0" text="B" />
+                              <TableColumn fx:id="columnC" prefWidth="75.0" text="C" />
+                              <TableColumn fx:id="columnD" prefWidth="75.0" text="D" />
+                              <TableColumn fx:id="columnCorrectAnswer" prefWidth="75.0" text="Poprawne" />
+                          </columns>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                           </VBox.margin>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <contextMenu>
+                              <ContextMenu fx:id="contextMenu">
+                                <items>
+                                  <MenuItem fx:id="menuItemEdit" mnemonicParsing="false" onAction="#menuItemEditAction" text="Edytuj" />
+                                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#menuItemDeleteAction" text="Usuń" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </TableView>
+                     </children></VBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

@@ -1,5 +1,6 @@
 package com.mizio.repository;
 
+import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,10 +55,27 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public void removeImage(int id) {
+        configureSessionAndBeginTransaction();
+        session.createQuery("delete from Image where imageID = :ID")
+                .setParameter("ID", id)
+                .executeUpdate();
+        closeSessionAndSessionFactory();
+    }
+
+    @Override
     public List<Subject> getSubjectsList() {
         configureSessionAndBeginTransaction();
         List<Subject> subjects = session.createQuery("from Subject", Subject.class).list();
         closeSessionAndSessionFactory();
         return subjects;
+    }
+
+    @Override
+    public List<GroupDetail> getGroupDetailList() {
+        configureSessionAndBeginTransaction();
+        List<GroupDetail> groupDetails = session.createQuery("from GroupDetail", GroupDetail.class).list();
+        closeSessionAndSessionFactory();
+        return groupDetails;
     }
 }

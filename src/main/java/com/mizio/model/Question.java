@@ -40,7 +40,8 @@ public class Question {
     private QuestionType questionType;
 
     @OneToOne(targetEntity = AnswersContent.class,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
     private AnswersContent answersContent;
@@ -50,8 +51,10 @@ public class Question {
             nullable = false)
     private AnswerCorrect answerCorrect;
 
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
-
+    @OneToOne(targetEntity =  Image.class,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "image_id")
+    private Image image;
 }

@@ -1,4 +1,5 @@
 package com.mizio.repository;
+import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 import java.util.List;
 
@@ -18,7 +19,14 @@ public class RepositoryService {
         return repository.deleteObject(tClass, ID);
     }
 
+    public void removeImage(int id) {
+        repository.removeImage(id);
+    }
+
     public List<Subject> getSubjectsList() {
         return repository.getSubjectsList();
+    }
+    public List<GroupDetail> getGroupDetailList() {
+        return repository.getGroupDetailList();
     }
 }

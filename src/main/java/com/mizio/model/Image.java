@@ -10,15 +10,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "answers")
-public class AnswersContent {
+@Table(name = "images")
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "answer_id",
+    @Column(name = "image_id",
             updatable = false,
             nullable = false)
-    private int answerID;
+    private int imageID;
 
     @ManyToOne(targetEntity = Subject.class,
             fetch = FetchType.EAGER)
@@ -36,18 +36,10 @@ public class AnswersContent {
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     private Question question;
 
-    @Column(name = "answer_a",
-            nullable = false)
-    private String answerA;
+    @Column(name = "image_name")
+    private String imageName;
 
-    @Column(name = "answer_b",
-            nullable = false)
-    private String answerB;
-
-    @Column(name = "answer_c")
-    private String answerC;
-
-    @Column(name = "answer_d")
-    private String answerD;
-
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
 }

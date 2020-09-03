@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mizio.controller.AddQuestionController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <left>
+            <GridPane BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="140.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+               </rowConstraints>
+               <children>
+                  <JFXButton id="toolbar-button" fx:id="buttonBack" alignment="CENTER" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#buttonBackAction" text="Powrót" textAlignment="CENTER">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/icon_arrow_back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </GridPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="1140.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="50.0" prefWidth="150.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="50.0" prefWidth="150.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXComboBox fx:id="comboBoxSubject" labelFloat="true" onAction="#comboBoxSubjectAction" prefHeight="35.0" prefWidth="250.0" promptText="Wybierz przedmiot" />
+                              <JFXComboBox fx:id="comboBoxTest" labelFloat="true" onAction="#comboBoxTestAction" prefHeight="35.0" prefWidth="250.0" promptText="Wybierz test" GridPane.columnIndex="1" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="20.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <JFXTextField fx:id="textFieldQuestionName" labelFloat="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#textFieldQuestionNameAction" onKeyReleased="#textFieldQuestionIsLetter" promptText="Treść pytania">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="30.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXTextField>
+                        <HBox alignment="CENTER" prefHeight="53.0" prefWidth="450.0">
+                           <children>
+                              <JFXRadioButton fx:id="radioAB" contentDisplay="TOP" depthTest="DISABLE" graphicTextGap="0.0" onAction="#radioABAction" selected="true" text="A, B">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="RadioAnswerGroup" />
+                                 </toggleGroup>
+                                 <HBox.margin>
+                                    <Insets right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="radioABC" layoutX="10.0" layoutY="10.0" onAction="#radioABCAction" text="A, B, C" toggleGroup="$RadioAnswerGroup">
+                                 <HBox.margin>
+                                    <Insets left="15.0" right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="radioABCD" layoutX="103.0" layoutY="10.0" onAction="#radioABCDAction" text="A, B, C, D" toggleGroup="$RadioAnswerGroup">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXRadioButton>
+                              <JFXButton id="addImg-button" fx:id="buttonAddImg" alignment="CENTER" contentDisplay="TOP" onAction="#buttonAddImgAction" prefHeight="64.0" prefWidth="100.0" text="brak">
+                                 <graphic>
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icon/icon_image.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <ImageView fx:id="imgCheckmark" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#imgCheckMarkMouseClicked" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/icon_delete.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="25.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" percentWidth="90.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXTextField fx:id="textFieldAnswerA" labelFloat="true" onAction="#textFieldAnswerAAction" onKeyReleased="#textFieldAnswerAisLetter" promptText="Wprowadź odpowiedź A">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </JFXTextField>
+                              <JFXRadioButton fx:id="radioCorrectA" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" prefHeight="18.0" prefWidth="0.0" selected="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="RadioCorrectGroup" />
+                                 </toggleGroup>
+                              </JFXRadioButton>
+                              <JFXTextField fx:id="textFieldAnswerB" labelFloat="true" onAction="#textFieldAnswerBAction" onKeyReleased="#textFieldAnswerBisLetter" promptText="Wprowadź odpowiedź B" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXRadioButton fx:id="radioCorrectB" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" prefHeight="18.0" prefWidth="0.0" toggleGroup="$RadioCorrectGroup" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </JFXRadioButton>
+                              <JFXTextField fx:id="textFieldAnswerC" labelFloat="true" onAction="#textFieldAnswerCAction" onKeyReleased="#textFieldAnswerCisLetter" promptText="Wprowadź odpowiedź C" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXRadioButton fx:id="radioCorrectC" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" prefHeight="18.0" prefWidth="0.0" toggleGroup="$RadioCorrectGroup" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </JFXRadioButton>
+                              <JFXTextField fx:id="textFieldAnswerD" labelFloat="true" onAction="#textFieldAnswerDAction" onKeyReleased="#textFieldAnswerDisLetter" promptText="Wprowadź odpowiedź D" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXRadioButton fx:id="radioCorrectD" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" prefHeight="18.0" prefWidth="0.0" toggleGroup="$RadioCorrectGroup" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </JFXRadioButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <JFXButton id="save-button" fx:id="buttonAddQuestion" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#buttonAddQuestionAction" prefHeight="50.0" prefWidth="200.0" text="ZAPISZ">
+                           <VBox.margin>
+                              <Insets top="25.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children></AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

@@ -33,7 +33,13 @@ public class Test {
 
     @OneToMany(mappedBy = "test",
             targetEntity = Question.class,
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER,
+            orphanRemoval = true,
+            cascade = CascadeType.PERSIST)
     private List<Question> questions = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return this.getTestName().toUpperCase();
+    }
 }

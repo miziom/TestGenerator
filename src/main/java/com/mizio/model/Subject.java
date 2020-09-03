@@ -28,8 +28,13 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject",
             targetEntity = Test.class,
-            fetch= FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            fetch= FetchType.EAGER,
+            orphanRemoval = true,
+            cascade = CascadeType.PERSIST)
     private List<Test> tests = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return subjectName.toUpperCase();
+    }
 }

@@ -1,0 +1,30 @@
+#toolbar-button {
+    -fx-font-family: "MS Reference Sans Serif";
+    -fx-font-size: 13px;
+    -fx-background-color: #F0F0F0;
+}
+
+#toolbar-button:hover {
+    -fx-background-color: #D6D6D6;
+}
+
+#save-button, #close-button {
+    -fx-background-color: #4059a9;
+    -fx-text-fill: white;
+}
+
+#save-button:hover {
+    -fx-background-color: #0F9D58;
+}
+
+#close-button:hover {
+    -fx-background-color: #9E2110;
+}
+
+#addImg-button:hover {
+    -fx-background-color: #D6D6D6;
+}
+
+#field {
+    -fx-background-color: #F0F0F0;
+}
