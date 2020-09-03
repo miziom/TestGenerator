@@ -8,13 +8,17 @@
     -fx-background-color: #D6D6D6;
 }
 
-#save-button {
+#save-button, #close-button {
     -fx-background-color: #4059a9;
     -fx-text-fill: white;
 }
 
 #save-button:hover {
     -fx-background-color: #0F9D58;
+}
+
+#close-button:hover {
+    -fx-background-color: #9E2110;
 }
 
 #addImg-button:hover {
