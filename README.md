@@ -5,9 +5,8 @@ Application to generate test for few groups. User can add questions and generate
 - Java, 
 - JavaFX, 
 - Maven, 
-- JSON, 
+- Hibernate
 - Apache POI API
 
 **Designed using:**
 - MVC
-- Repository Pattern
