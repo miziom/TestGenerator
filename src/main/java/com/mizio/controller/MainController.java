@@ -248,11 +248,13 @@ public class MainController implements Initializable {
             return stringProperty;
         });
         columnCorrectAnswer.setCellValueFactory(new PropertyValueFactory<>("answerCorrect"));
-        if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
-            tableView.getItems().setAll(repositoryListViewer.getTest(
-                    comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
-                    comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
-            .getQuestions());
+        if (!comboBoxTest.getItems().isEmpty()) {
+            if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
+                tableView.getItems().setAll(repositoryListViewer.getTest(
+                        comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
+                        comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
+                        .getQuestions());
+            }
         }
         setLabelQuestionCounter();
     }

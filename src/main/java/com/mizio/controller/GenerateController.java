@@ -258,13 +258,15 @@ public class GenerateController implements Initializable {
         });
         columnType.setCellValueFactory(new PropertyValueFactory<>("questionType"));
         columnSelect.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-        if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
-            List<Question> questions = repositoryListViewer.getTest(
-                    comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
-                    comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
-                    .getQuestions();
-            List<QuestionDTO> questionDTOList = mapper.mapQuestionListToQuestionDTOList(questions);
-            tableView.getItems().setAll(questionDTOList);
+        if (!comboBoxTest.getItems().isEmpty()) {
+            if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
+                List<Question> questions = repositoryListViewer.getTest(
+                        comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
+                        comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
+                        .getQuestions();
+                List<QuestionDTO> questionDTOList = mapper.mapQuestionListToQuestionDTOList(questions);
+                tableView.getItems().setAll(questionDTOList);
+            }
         }
     }
 
