@@ -33,7 +33,7 @@ public class SliderManager {
         this.addImageIfExist(slideNumber);
         this.writeQuestionNumber(slideNumber + 1);
         this.writeQuestion(1, slideNumber);
-        if (this.getPresentationManager().getDrawManager().getNumberOfGroup() <= 2) {
+        if (this.getPresentationManager().getDrawManager().getNumberOfGroup() >= 2) {
             this.writeQuestion(2, slideNumber);
         }
         if (this.getPresentationManager().getDrawManager().getNumberOfGroup() == 3) {
