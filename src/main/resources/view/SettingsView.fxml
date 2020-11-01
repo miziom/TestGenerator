@@ -4,7 +4,11 @@
 <?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -85,6 +89,25 @@
                                     <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
                               </JFXButton>
+                              <TableView prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css">
+                                <columns>
+                                  <TableColumn fx:id="columnGroupName" prefWidth="75.0" text="Nazwa Grupy" />
+                                    <TableColumn fx:id="columnGroupColor" prefWidth="75.0" text="Kolor" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                                 <contextMenu>
+                                    <ContextMenu fx:id="contextMenu">
+                                      <items>
+                                        <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" onAction="#menuItemDeleteAction" text="Usuń" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="25.0" top="5.0" />
+                                 </HBox.margin>
+                              </TableView>
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" left="10.0" right="10.0" />
