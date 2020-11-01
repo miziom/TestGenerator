@@ -89,7 +89,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
                               </JFXButton>
-                              <TableView prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css">
+                              <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/table.css">
                                 <columns>
                                   <TableColumn fx:id="columnGroupName" prefWidth="75.0" text="Nazwa Grupy" />
                                     <TableColumn fx:id="columnGroupColor" prefWidth="75.0" text="Kolor" />

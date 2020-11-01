@@ -7,12 +7,13 @@ import com.mizio.manager.ViewManager;
 import com.mizio.model.GroupDetail;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
@@ -31,6 +32,9 @@ public class SettingsController implements Initializable {
 
     @FXML
     private JFXButton buttonAddColor;
+
+    @FXML
+    private TableView<GroupDetail> tableView;
 
     @FXML
     private TableColumn<GroupDetail, String> columnGroupName;
@@ -73,4 +77,5 @@ public class SettingsController implements Initializable {
     void textFieldGroupNameColorIsLetter(KeyEvent event) {
 
     }
+
 }
