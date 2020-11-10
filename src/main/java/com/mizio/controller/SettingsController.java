@@ -7,7 +7,7 @@ import com.mizio.manager.ViewManager;
 import com.mizio.model.GroupDetail;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import com.mizio.service.GroupDetailService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
-    private  RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
     private GroupDetailService groupDetailService = new GroupDetailService();
 
     @FXML

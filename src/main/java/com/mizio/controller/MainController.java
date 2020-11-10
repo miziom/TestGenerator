@@ -10,7 +10,7 @@ import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import com.mizio.service.RepositoryService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -28,7 +28,7 @@ public class MainController implements Initializable {
 
     RepositoryService repositoryService = new RepositoryService();
 
-    RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
 
     EditQuestionController editQuestionController = new EditQuestionController();
 

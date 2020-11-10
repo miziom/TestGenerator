@@ -10,7 +10,7 @@ import com.mizio.manager.PopUpManager;
 import com.mizio.model.*;
 import com.mizio.pattern.LabelPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import com.mizio.service.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 public class EditQuestionController implements Initializable {
 
-    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
     private RepositoryService repositoryService = new RepositoryService();
     private static Image image = null;
     private static Question question = null;

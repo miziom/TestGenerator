@@ -2,7 +2,7 @@ package com.mizio.concurrency;
 
 import com.mizio.model.Question;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
@@ -26,7 +26,7 @@ public class TableViewQuestionThread implements Runnable {
     private Label labelQuestionCounter;
 
     private boolean guard = true;
-    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
 
     public TableViewQuestionThread(
             Question question,
