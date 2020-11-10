@@ -2,7 +2,6 @@ package com.mizio.service;
 
 import com.mizio.model.GroupDetail;
 import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
 
 import java.awt.*;
 
