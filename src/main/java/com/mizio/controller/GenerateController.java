@@ -16,7 +16,7 @@ import com.mizio.model.Test;
 import com.mizio.pattern.LabelPattern;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import com.mizio.service.FileOutService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 
 public class GenerateController implements Initializable {
 
-    RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
     Mapper mapper = new Mapper();
 
     @FXML

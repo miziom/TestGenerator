@@ -1,14 +1,13 @@
-package com.mizio.repository;
+package com.mizio.service;
 
 import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
-import com.mizio.service.RepositoryService;
 
 import java.util.List;
 import java.util.Optional;
 
-public class RepositoryListViewer {
+public class RepositoryListViewerService {
 
     private static List<GroupDetail> groupDetailList;
     private static List<Subject> subjectList;
