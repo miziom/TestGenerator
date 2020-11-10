@@ -7,7 +7,7 @@ import com.mizio.concurrency.TableViewTestThread;
 import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
+import com.mizio.service.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

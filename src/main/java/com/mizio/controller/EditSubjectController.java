@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.mizio.concurrency.TableViewSubjectThread;
 import com.mizio.model.Subject;
 import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
+import com.mizio.service.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

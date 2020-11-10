@@ -1,6 +1,9 @@
-package com.mizio.repository;
+package com.mizio.service;
 import com.mizio.model.GroupDetail;
 import com.mizio.model.Subject;
+import com.mizio.repository.Repository;
+import com.mizio.repository.RepositoryImpl;
+
 import java.util.List;
 
 public class RepositoryService {
