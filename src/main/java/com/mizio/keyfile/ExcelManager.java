@@ -92,32 +92,30 @@ public class ExcelManager {
                 for(int k = 0; k <11; k++) {
                     switch (i + 1) {
                         case 1: {
-                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupFirst(), this.getGroupDetailList().get(i), 0, rowIterator++, true);
-                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupFirst(),0, rowIterator++,true);
-                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupFirst(), cellStyle1, 0, rowIterator++,true);
-                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupFirst(), cellStyle1, 0, rowIterator,true);
+                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupFirst(), this.getGroupDetailList().get(i), this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++, true);
+                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupFirst(),this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupFirst(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupFirst(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator,true);
                             rowIterator+=2;
                         }break;
                         case 2: {
-                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupSecond(), this.getGroupDetailList().get(i), 0, rowIterator++, true);
-                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupSecond(),0, rowIterator++,true);
-                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupSecond(), cellStyle1, 0, rowIterator++,true);
-                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupSecond(), cellStyle1, 0, rowIterator,true);
+                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupSecond(), this.getGroupDetailList().get(i), this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++, true);
+                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupSecond(),this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupSecond(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupSecond(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator,true);
                             rowIterator+=2;
                         } break;
                         case 3: {
-                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupThird(), this.getGroupDetailList().get(i), 0, rowIterator++, true);
-                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupThird(),0, rowIterator++,true);
-                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupThird(), cellStyle1, 0, rowIterator++,true);
-                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupThird(), cellStyle1, 0, rowIterator,true);
+                            formManager.createFirstRow(spreadsheet, this.getDrawManager().getGroupThird(), this.getGroupDetailList().get(i), this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++, true);
+                            formManager.createSecondRow(spreadsheet, this.getDrawManager().getGroupThird(),this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createThirdRow(spreadsheet, this.getDrawManager().getGroupThird(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator++,true);
+                            formManager.createFourthRow(spreadsheet, this.getDrawManager().getGroupThird(), cellStyle1, this.getDrawManager().getQuestionDTOList().size() + 1, rowIterator,true);
                             rowIterator+=2;
                         } break;
                     }
                 }
-
             }
             spreadsheet.setDefaultColumnWidth(2);
         }
     }
-
 }

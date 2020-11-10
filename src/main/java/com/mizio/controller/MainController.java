@@ -10,8 +10,8 @@ import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
+import com.mizio.service.RepositoryListViewerService;
+import com.mizio.service.RepositoryService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -28,7 +28,7 @@ public class MainController implements Initializable {
 
     RepositoryService repositoryService = new RepositoryService();
 
-    RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
 
     EditQuestionController editQuestionController = new EditQuestionController();
 
@@ -248,11 +248,13 @@ public class MainController implements Initializable {
             return stringProperty;
         });
         columnCorrectAnswer.setCellValueFactory(new PropertyValueFactory<>("answerCorrect"));
-        if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
-            tableView.getItems().setAll(repositoryListViewer.getTest(
-                    comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
-                    comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
-            .getQuestions());
+        if (!comboBoxTest.getItems().isEmpty()) {
+            if (!comboBoxTest.getSelectionModel().getSelectedItem().getQuestions().isEmpty()) {
+                tableView.getItems().setAll(repositoryListViewer.getTest(
+                        comboBoxSubject.getSelectionModel().getSelectedItem().getSubjectID(),
+                        comboBoxTest.getSelectionModel().getSelectedItem().getTestID())
+                        .getQuestions());
+            }
         }
         setLabelQuestionCounter();
     }
