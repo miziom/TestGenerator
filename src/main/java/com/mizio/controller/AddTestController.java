@@ -10,8 +10,8 @@ import com.mizio.model.Subject;
 import com.mizio.model.Test;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
+import com.mizio.service.RepositoryListViewerService;
+import com.mizio.service.RepositoryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,7 +27,7 @@ public class AddTestController implements Initializable {
 
     private RepositoryService repositoryService = new RepositoryService();
 
-    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
 
     private EditTestController editTestController = new EditTestController();
 

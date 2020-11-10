@@ -5,9 +5,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
 import com.mizio.dto.QuestionDTO;
-import com.mizio.examfile.PresentationManager;
-import com.mizio.keyfile.ExcelManager;
-import com.mizio.manager.*;
+import com.mizio.manager.PopUpManager;
+import com.mizio.manager.RangeManager;
+import com.mizio.manager.ViewManager;
 import com.mizio.mapper.Mapper;
 import com.mizio.model.GroupDetail;
 import com.mizio.model.Question;
@@ -16,7 +16,8 @@ import com.mizio.model.Test;
 import com.mizio.pattern.LabelPattern;
 import com.mizio.pattern.PathPattern;
 import com.mizio.pattern.TitlePattern;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
+import com.mizio.service.FileOutService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -25,8 +26,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.net.URL;
@@ -37,7 +36,7 @@ import java.util.ResourceBundle;
 
 public class GenerateController implements Initializable {
 
-    RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
     Mapper mapper = new Mapper();
 
     @FXML
@@ -104,59 +103,18 @@ public class GenerateController implements Initializable {
 
     @FXML
     void buttonGenerateAction(ActionEvent event) {
+        File saveFile = PopUpManager.saveFile(event);
+        FileOutService fileOutService = new FileOutService(
+                saveFile,
+                getGroupDetailList(),
+                comboBoxGroupNumber.getSelectionModel().getSelectedItem());
         if (radioButtonTableView.isSelected()) {
-            List<QuestionDTO> selectedQuestions = RangeManager.getSelectedQuestions(tableView.getItems());
-            if (selectedQuestions == null) {
-                PopUpManager.showInformation(LabelPattern.NO_QUESTIONS_SELECTED);
-            } else {
-                ListManager listManager = ListManager.builder()
-                        .questionDTOList(selectedQuestions)
-                        .build();
-                if (listManager.checkNumberOfImagesInListIsCorrect(comboBoxGroupNumber.getSelectionModel().getSelectedItem())) {
-                    DrawManager drawManager = new DrawManager(
-                            comboBoxGroupNumber.getSelectionModel().getSelectedItem(),
-                            listManager.getQuestionDTOList()
-                    );
-                    drawManager.drawGroups();
-                    PresentationManager presentationManager = new PresentationManager(new XMLSlideShow(), drawManager, getGroupDetailList());
-                    presentationManager.createTest();
-                    ExcelManager excelManager = new ExcelManager(drawManager, getGroupDetailList(), new XSSFWorkbook());
-                    excelManager.createKey();
-                    File saveFile = PopUpManager.saveFile(event);
-                    FileOutManager fileOutManager = new FileOutManager(
-                            presentationManager.getPpt(),
-                            excelManager.getWorkbook(),
-                            saveFile);
-                    fileOutManager.saveFiles();
-                } else {
-                    PopUpManager.showInformation(String.format(LabelPattern.IMAGE_NUMBER_ALERT,
-                            listManager.getQuestionDTOList().size(),
-                            comboBoxGroupNumber.getSelectionModel().getSelectedItem(),
-                            listManager.getMaxNumberOfImage(),
-                            listManager.getNumberOfImage()
-                            ));
-                }
-            }
+            fileOutService.generateFilesForSelectedQuestions(tableView.getItems());
         } else if (radioButtonComboBox.isSelected()) {
-            List<QuestionDTO> questionDTOList = DrawManager.drawQuestionList(
+            fileOutService.generateFilesForDeterminedNumberOfQuestions(
                     tableView.getItems(),
-                    comboBoxQuestionsNumber.getSelectionModel().getSelectedItem(),
-                    comboBoxGroupNumber.getSelectionModel().getSelectedItem()
+                    comboBoxQuestionsNumber.getSelectionModel().getSelectedItem()
             );
-            DrawManager drawManager = new DrawManager(
-                    comboBoxGroupNumber.getSelectionModel().getSelectedItem(),
-                    questionDTOList);
-            drawManager.drawGroups();
-            PresentationManager presentationManager = new PresentationManager(new XMLSlideShow(), drawManager, getGroupDetailList());
-            presentationManager.createTest();
-            ExcelManager excelManager = new ExcelManager(drawManager, getGroupDetailList(), new XSSFWorkbook());
-            excelManager.createKey();
-            File saveFile = PopUpManager.saveFile(event);
-            FileOutManager fileOutManager = new FileOutManager(
-                    presentationManager.getPpt(),
-                    excelManager.getWorkbook(),
-                    saveFile);
-            fileOutManager.saveFiles();
         }
     }
 

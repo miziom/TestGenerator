@@ -1,14 +1,12 @@
 package com.mizio.service;
 
 import com.mizio.model.GroupDetail;
-import com.mizio.repository.RepositoryListViewer;
-import com.mizio.repository.RepositoryService;
 
 import java.awt.*;
 
 public class GroupDetailService {
 
-    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
     private RepositoryService repositoryService = new RepositoryService();
 
     public void loadExampleGroupDetail() {

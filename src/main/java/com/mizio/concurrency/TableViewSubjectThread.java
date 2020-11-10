@@ -1,7 +1,7 @@
 package com.mizio.concurrency;
 
 import com.mizio.model.Subject;
-import com.mizio.repository.RepositoryListViewer;
+import com.mizio.service.RepositoryListViewerService;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,7 +13,7 @@ public class TableViewSubjectThread implements Runnable {
     private TableColumn<Subject, String> columnSubjectName;
 
     private boolean guard = true;
-    private RepositoryListViewer repositoryListViewer = new RepositoryListViewer();
+    private RepositoryListViewerService repositoryListViewer = new RepositoryListViewerService();
 
     public TableViewSubjectThread(TableView<Subject> tableView, TableColumn<Subject, String> columnSubjectName) {
         this.tableView = tableView;
